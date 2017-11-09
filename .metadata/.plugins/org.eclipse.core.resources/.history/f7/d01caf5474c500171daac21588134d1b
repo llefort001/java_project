@@ -15,7 +15,7 @@ public class Bouton {
 	protected JButton bouton;
 	
 	public Bouton(){
-		this.bouton = new JButton(".");
+		this.bouton=new JButton("bitoku");
 		this.visible=true;
 	}
 
@@ -27,6 +27,21 @@ public class Bouton {
 		this.listeVerrous = listeVerrous;
 	}
 
+	public int getCoordX() {
+		return coordX;
+	}
+
+	public void setCoordX(int coordX) {
+		this.coordX = coordX;
+	}
+
+	public int getCoordY() {
+		return coordY;
+	}
+
+	public void setCoordY(int coordY) {
+		this.coordY = coordY;
+	}
 
 	public boolean isVisible() {
 		return visible;
@@ -54,6 +69,7 @@ public class Bouton {
 	
 	public void afficher( Fenetre window){
 		Graphics g=window.obtenirZoneGraphique();
+			System.out.println("afficher verrou "  + this + " ferme en " + this.getCoordX() + " " + this.getCoordY());
 			window.getContentPane().add(bouton);
 			} // dessiner le verrou	ferm�
 

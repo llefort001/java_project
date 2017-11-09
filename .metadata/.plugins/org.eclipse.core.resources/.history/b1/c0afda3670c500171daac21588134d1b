@@ -60,14 +60,13 @@ public class Jeu extends JFrame {
 		this.menuPrincipal.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		this.menuNiveau = new JPanel();
-		this.menuNiveau.setLayout(new GridLayout(2,1));
-//		this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		this.imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
 		this.fond = new JLabel(this.imageFond);
 
 		this.jouer = new JButton("Jouer");
-		this.test = new JButton(".");
+		this.test = new JButton("Test bouton");
 		this.nivPrec = new JButton("< Niveau précédent");
 		this.nivSuiv = new JButton("Niveau suivant >");
 
@@ -79,25 +78,16 @@ public class Jeu extends JFrame {
 		
 		// Remplissage des verrous du niveau
 		this.verrous = new Vector<Verrou>();
-		this.boutons = new Vector<Bouton>();
 		switch(niveauEnCours){
 		case 1 :
-			for(int i=0;i<4;i++) {
-				verrous.add(new Verrou()); 
-				boutons.add(new Bouton());
-			}
-			
+			for(int i=0;i<4;i++){
+			verrous.add(new Verrou());}
 			System.out.println(verrous.size());
 			System.out.println(verrous.elementAt(3).getImageClosed());
-			for(int i=0; i < verrous.size(); i++) {
-				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
-				boutonsPanel.add(boutons.elementAt(i).getBouton());
-			}
+			for(int i=0; i < verrous.size(); i++){
+			verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));}
 			System.out.println(verrousPanel);
-			System.out.println(boutonsPanel);
 			verrousPanel.setVisible(true);
-			boutonsPanel.setVisible(true);
-			
 			break;
 		case 2 :
 			break;
@@ -110,7 +100,7 @@ public class Jeu extends JFrame {
 		// Remplissage menuNiveau
 		this.menuNiveau.add(verrousPanel);
 		this.menuNiveau.add(boutonsPanel);
-//		this.menuNiveau.add(test);
+		this.menuNiveau.add(test);
 
 		// Remplissage menuPrincipal
 		this.menuPrincipal.add(nivPrec);
@@ -139,7 +129,7 @@ public class Jeu extends JFrame {
 		
 
 	}
-
+	
 	private class Jouer implements ActionListener {
 
 		@Override
@@ -164,16 +154,16 @@ public class Jeu extends JFrame {
 			zoneDeJeu.add(menuNiveau);
 			System.out.println("on y est");
 			zoneDeJeu.updateUI();
-		}
+		}	
 	}
-
+	
 	private class NextLvl implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			niveauEnCours++;
-			if (niveauEnCours == 5) {
-				niveauEnCours = 1;
+			if(niveauEnCours == 5){
+				niveauEnCours=1;
 			}
 			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
@@ -192,9 +182,9 @@ public class Jeu extends JFrame {
 			}
 			fond.setIcon(imageFond);
 		}
-
+		
 	}
-
+	
 	private class PreviousLvl implements ActionListener {
 
 		@Override
@@ -220,6 +210,6 @@ public class Jeu extends JFrame {
 			}
 			fond.setIcon(imageFond);
 		}
-
+		
 	}
 }

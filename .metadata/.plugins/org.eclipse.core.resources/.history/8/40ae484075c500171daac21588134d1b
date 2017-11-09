@@ -54,6 +54,7 @@ public class Bouton {
 	
 	public void afficher( Fenetre window){
 		Graphics g=window.obtenirZoneGraphique();
+			System.out.println("afficher verrou "  + this + " ferme en " + this.getCoordX() + " " + this.getCoordY());
 			window.getContentPane().add(bouton);
 			} // dessiner le verrou	ferm�
 

@@ -79,7 +79,6 @@ public class Jeu extends JFrame {
 		
 		// Remplissage des verrous du niveau
 		this.verrous = new Vector<Verrou>();
-		this.boutons = new Vector<Bouton>();
 		switch(niveauEnCours){
 		case 1 :
 			for(int i=0;i<4;i++) {
@@ -94,9 +93,7 @@ public class Jeu extends JFrame {
 				boutonsPanel.add(boutons.elementAt(i).getBouton());
 			}
 			System.out.println(verrousPanel);
-			System.out.println(boutonsPanel);
 			verrousPanel.setVisible(true);
-			boutonsPanel.setVisible(true);
 			
 			break;
 		case 2 :
