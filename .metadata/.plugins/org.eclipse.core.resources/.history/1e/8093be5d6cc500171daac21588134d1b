@@ -22,7 +22,7 @@ public class Verrou {
 	public void setEtat(boolean opened) {
 		this.opened = opened;
 	}
-	
+
 	public ImageIcon getImageOpened() {
 		return imageOpened;
 	}

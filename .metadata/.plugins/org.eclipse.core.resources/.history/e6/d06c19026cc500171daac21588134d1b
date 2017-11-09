@@ -11,7 +11,7 @@ public class Verrou {
 
 	public Verrou() {
 		this.imageOpened = new ImageIcon("res/padlockOpened.png", "Padlock opened");
-		this.imageClosed = new ImageIcon("res/padlockClosed.png", "Padlock closed");
+		this.imageOpened = new ImageIcon("res/padlockClosed.png", "Padlock closed");
 		this.opened = false;
 	}
 
@@ -22,7 +22,7 @@ public class Verrou {
 	public void setEtat(boolean opened) {
 		this.opened = opened;
 	}
-	
+
 	public ImageIcon getImageOpened() {
 		return imageOpened;
 	}

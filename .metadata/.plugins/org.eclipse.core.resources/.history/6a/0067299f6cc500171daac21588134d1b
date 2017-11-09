@@ -62,7 +62,7 @@ public class Jeu extends JFrame {
 		this.menuNiveau = new JPanel();
 		this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		this.imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
+		this.imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
 		this.fond = new JLabel(this.imageFond);
 
 		this.jouer = new JButton("Jouer");

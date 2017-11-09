@@ -62,7 +62,7 @@ public class Jeu extends JFrame {
 		this.menuNiveau = new JPanel();
 		this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		this.imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
+		this.imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
 		this.fond = new JLabel(this.imageFond);
 
 		this.jouer = new JButton("Jouer");
@@ -77,24 +77,8 @@ public class Jeu extends JFrame {
 		this.boutonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		// Remplissage des verrous du niveau
-		this.verrous = new Vector<Verrou>();
 		switch(niveauEnCours){
-		case 1 :
-			for(int i=0;i<4;i++){
-			verrous.add(new Verrou());}
-			System.out.println(verrous.size());
-			System.out.println(verrous.elementAt(3).getImageClosed());
-			for(int i=0; i < verrous.size(); i++){
-			verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));}
-			System.out.println(verrousPanel);
-			verrousPanel.setVisible(true);
-			break;
-		case 2 :
-			break;
-		case 3 :
-			break;
-		case 4 :
-			break;
+			
 		}
 
 		// Remplissage menuNiveau
@@ -137,16 +121,16 @@ public class Jeu extends JFrame {
 			System.out.println("C'est parti");
 			switch (niveauEnCours) {
 			case 1:
-				imageFond = new ImageIcon("res/Jeu-Niveau1-static.png", "Chest easy");
+				imageFond = new ImageIcon("res/Chest_easy.png", "Chest easy");
 				break;
 			case 2:
-				imageFond = new ImageIcon("res/Jeu-Niveau2-static.png", "Chest normal");
+				imageFond = new ImageIcon("res/Chest_normal.png", "Chest normal");
 				break;
 			case 3:
-				imageFond = new ImageIcon("res/Jeu-Niveau3-static.png", "Chest hard");
+				imageFond = new ImageIcon("res/Chest_hard.png", "Chest hard");
 				break;
 			case 4:
-				imageFond = new ImageIcon("res/Jeu-Niveau4-static.png", "Chest harder");
+				imageFond = new ImageIcon("res/Chest_harder.png", "Chest harder");
 				break;
 			}
 			fond.setIcon(imageFond);
@@ -168,16 +152,16 @@ public class Jeu extends JFrame {
 			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
 			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
+				imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
 				break;
 			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
+				imageFond = new ImageIcon("res/Chests_normal.png", "Chests normal");
 				break;
 			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
+				imageFond = new ImageIcon("res/Chests_hard.png", "Chests hard");
 				break;
 			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
+				imageFond = new ImageIcon("res/Chests_harder.png", "Chests harder");
 				break;
 
 			}
@@ -197,17 +181,18 @@ public class Jeu extends JFrame {
 			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
 			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
+				imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
 				break;
 			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
+				imageFond = new ImageIcon("res/Chests_normal.png", "Chests normal");
 				break;
 			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
+				imageFond = new ImageIcon("res/Chests_hard.png", "Chests hard");
 				break;
 			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
+				imageFond = new ImageIcon("res/Chests_harder.png", "Chests harder");
 				break;
+
 			}
 			fond.setIcon(imageFond);
 		}
