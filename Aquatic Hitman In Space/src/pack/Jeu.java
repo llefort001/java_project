@@ -37,7 +37,7 @@ public class Jeu extends JFrame {
 		// creation de l'iterface
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Aquatic Hitman in Space");
-		
+
 		this.menuBar = new JMenuBar();
 		this.fichier = new JMenu("Fichier");
 		this.aide = new JMenu("Aide");
@@ -45,14 +45,14 @@ public class Jeu extends JFrame {
 		this.save = new JMenuItem("Sauvegarder");
 		this.load = new JMenuItem("Charger partie");
 		this.exit = new JMenuItem("Quitter");
-		
+
 		this.aide.add(aPropos);
 		this.fichier.add(save);
 		this.fichier.add(load);
 		this.fichier.add(exit);
 		this.menuBar.add(fichier);
 		this.menuBar.add(aide);
-		
+
 		this.zoneDeJeu = new JPanel();
 		this.zoneDeJeu.setLayout(new FlowLayout(FlowLayout.CENTER));
 
@@ -75,32 +75,13 @@ public class Jeu extends JFrame {
 
 		this.boutonsPanel = new JPanel();
 		this.boutonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+
 		// Remplissage des verrous du niveau
-		this.verrous = new Vector<Verrou>();
-		switch(niveauEnCours){
-		case 1 :
-			for(int i=0;i<4;i++){
-			verrous.add(new Verrou());}
-			System.out.println(verrous.size());
-			System.out.println(verrous.elementAt(3).getImageClosed());
-			for(int i=0; i < verrous.size(); i++){
-			verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));}
-			System.out.println(verrousPanel);
-			verrousPanel.setVisible(true);
-			break;
-		case 2 :
-			break;
-		case 3 :
-			break;
-		case 4 :
-			break;
-		}
 
 		// Remplissage menuNiveau
 		this.menuNiveau.add(verrousPanel);
 		this.menuNiveau.add(boutonsPanel);
-		this.menuNiveau.add(test);
+//		this.menuNiveau.add(test);
 
 		// Remplissage menuPrincipal
 		this.menuPrincipal.add(nivPrec);
@@ -114,22 +95,21 @@ public class Jeu extends JFrame {
 		this.add(fond, BorderLayout.CENTER);
 		// Replissage de la partie inferieure ( zone de jeu )
 		this.add(zoneDeJeu, BorderLayout.SOUTH);
-		
+
 		// Ajouter menuBar
 		this.add(menuBar, BorderLayout.PAGE_START);
 
 		this.setVisible(true);
-		this.setResizable(false);
+//		this.setResizable(false);
 		this.pack();
 
 		// Associer les action listeners
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
-		
 
 	}
-	
+
 	private class Jouer implements ActionListener {
 
 		@Override
@@ -149,21 +129,23 @@ public class Jeu extends JFrame {
 				imageFond = new ImageIcon("res/Jeu-Niveau4-static.png", "Chest harder");
 				break;
 			}
+			creerVerrous();
 			fond.setIcon(imageFond);
 			zoneDeJeu.removeAll();
 			zoneDeJeu.add(menuNiveau);
 			System.out.println("on y est");
-			zoneDeJeu.repaint();
-		}	
+			zoneDeJeu.updateUI();
+			
+		}
 	}
-	
+
 	private class NextLvl implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			niveauEnCours++;
-			if(niveauEnCours == 5){
-				niveauEnCours=1;
+			if (niveauEnCours == 5) {
+				niveauEnCours = 1;
 			}
 			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
@@ -183,9 +165,9 @@ public class Jeu extends JFrame {
 			}
 			fond.setIcon(imageFond);
 		}
-		
+
 	}
-	
+
 	private class PreviousLvl implements ActionListener {
 
 		@Override
@@ -211,6 +193,58 @@ public class Jeu extends JFrame {
 			}
 			fond.setIcon(imageFond);
 		}
-		
+
+	}
+	
+	public void creerVerrous(){
+		this.verrous = new Vector<Verrou>();
+		System.out.println("Niveau en cours : " + niveauEnCours);
+		switch (niveauEnCours) {
+		case 1:
+			for (int i = 0; i < 4; i++) {
+				verrous.add(new Verrou());
+				System.out.println("bite");
+			}
+			System.out.println(verrous.size());
+			for (int i = 0; i < verrous.size(); i++) {
+				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
+			}
+			System.out.println(verrousPanel);
+			verrousPanel.setVisible(true);
+			break;
+		case 2:
+			for (int i = 0; i < 4; i++) {
+				verrous.add(new Verrou());
+			}
+			System.out.println(verrous.size());
+			for (int i = 0; i < verrous.size(); i++) {
+				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
+			}
+			System.out.println(verrousPanel);
+			verrousPanel.setVisible(true);
+			break;
+		case 3:
+			for (int i = 0; i < 5; i++) {
+				verrous.add(new Verrou());
+			}
+			System.out.println(verrous.size());
+			for (int i = 0; i < verrous.size(); i++) {
+				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
+			}
+			System.out.println(verrousPanel);
+			verrousPanel.setVisible(true);
+			break;
+		case 4:
+			for (int i = 0; i < 6; i++) {
+				verrous.add(new Verrou());
+			}
+			System.out.println(verrous.size());
+			for (int i = 0; i < verrous.size(); i++) {
+				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
+			}
+			System.out.println(verrousPanel);
+			verrousPanel.setVisible(true);
+			break;
+		}
 	}
 }
