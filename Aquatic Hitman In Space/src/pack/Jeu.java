@@ -12,6 +12,9 @@ import javax.swing.*;
 
 public class Jeu extends JFrame {
 
+	protected JMenuBar menuBar;
+	protected JMenu fichier, aide;
+	protected JMenuItem aPropos, save, load, exit;
 	protected JPanel menuAppli;
 	protected JPanel zoneDeJeu;
 	protected ImageIcon imageFond;
@@ -31,9 +34,25 @@ public class Jeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public Jeu() {
-		// création de l'iterface
+		// creation de l'iterface
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Aquatic Hitman in Space");
+		
+		this.menuBar = new JMenuBar();
+		this.fichier = new JMenu("Fichier");
+		this.aide = new JMenu("Aide");
+		this.aPropos = new JMenuItem("Ã€ propos");
+		this.save = new JMenuItem("Sauvegarder");
+		this.load = new JMenuItem("Charger partie");
+		this.exit = new JMenuItem("Quitter");
+		
+		this.aide.add(aPropos);
+		this.fichier.add(save);
+		this.fichier.add(load);
+		this.fichier.add(exit);
+		this.menuBar.add(fichier);
+		this.menuBar.add(aide);
+		
 		this.zoneDeJeu = new JPanel();
 		this.zoneDeJeu.setLayout(new FlowLayout(FlowLayout.CENTER));
 
@@ -48,7 +67,7 @@ public class Jeu extends JFrame {
 
 		this.jouer = new JButton("Jouer");
 		this.test = new JButton("Test bouton");
-		this.nivPrec = new JButton("< Niveau précédent");
+		this.nivPrec = new JButton("< Niveau prÃ©cÃ©dent");
 		this.nivSuiv = new JButton("Niveau suivant >");
 
 		this.verrousPanel = new JPanel();
@@ -59,7 +78,7 @@ public class Jeu extends JFrame {
 		
 		//remplissage des verrous du niveau
 		switch(niveauEnCours){
-		
+			
 		}
 
 		// remplissage menuNiveau
@@ -75,10 +94,13 @@ public class Jeu extends JFrame {
 		// remplissage zoneDeJeu avec le menuPrincipal
 		this.zoneDeJeu.add(menuPrincipal);
 
-		// replissage de la partie supérieure ( image du jeu )
+		// replissage de la partie superieure ( image du jeu )
 		this.add(fond, BorderLayout.CENTER);
-		// replissage de la partie inférieure ( zone de jeu )
+		// replissage de la partie inferieure ( zone de jeu )
 		this.add(zoneDeJeu, BorderLayout.SOUTH);
+		
+		// Ajouter menuBar
+		this.add(menuBar, BorderLayout.PAGE_START);
 
 		this.setVisible(true);
 		this.setResizable(false);
@@ -120,7 +142,7 @@ public class Jeu extends JFrame {
 				if (niveauEnCours == 0) {
 					niveauEnCours = 4;
 				}
-				System.out.println("Niveau " + niveauEnCours + " chargé");
+				System.out.println("Niveau " + niveauEnCours + " chargï¿½");
 				switch (niveauEnCours) {
 				case 1:
 					imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
@@ -148,7 +170,7 @@ public class Jeu extends JFrame {
 				if(niveauEnCours == 5){
 					niveauEnCours=1;
 				}
-				System.out.println("Niveau " + niveauEnCours + " chargé");
+				System.out.println("Niveau " + niveauEnCours + " chargï¿½");
 				switch (niveauEnCours) {
 				case 1:
 					imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
