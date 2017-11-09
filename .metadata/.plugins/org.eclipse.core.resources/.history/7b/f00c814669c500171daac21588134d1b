@@ -76,27 +76,27 @@ public class Jeu extends JFrame {
 		this.boutonsPanel = new JPanel();
 		this.boutonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		// Remplissage des verrous du niveau
+		//remplissage des verrous du niveau
 		switch(niveauEnCours){
 			
 		}
 
-		// Remplissage menuNiveau
+		// remplissage menuNiveau
 		this.menuNiveau.add(verrousPanel);
 		this.menuNiveau.add(boutonsPanel);
 		this.menuNiveau.add(test);
 
-		// Remplissage menuPrincipal
+		// remplissage menuPrincipal
 		this.menuPrincipal.add(nivPrec);
 		this.menuPrincipal.add(jouer);
 		this.menuPrincipal.add(nivSuiv);
 
-		// Remplissage zoneDeJeu avec le menuPrincipal
+		// remplissage zoneDeJeu avec le menuPrincipal
 		this.zoneDeJeu.add(menuPrincipal);
 
-		// Replissage de la partie superieure ( image du jeu )
+		// replissage de la partie superieure ( image du jeu )
 		this.add(fond, BorderLayout.CENTER);
-		// Replissage de la partie inferieure ( zone de jeu )
+		// replissage de la partie inferieure ( zone de jeu )
 		this.add(zoneDeJeu, BorderLayout.SOUTH);
 		
 		// Ajouter menuBar
@@ -106,7 +106,7 @@ public class Jeu extends JFrame {
 		this.setResizable(false);
 		this.pack();
 
-		// Associer les action listeners
+		// creer un action listener
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
