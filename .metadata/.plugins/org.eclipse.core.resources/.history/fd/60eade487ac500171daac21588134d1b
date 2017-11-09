@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -174,7 +173,7 @@ public class Jeu extends JFrame {
 			if (niveauEnCours == 0) {
 				niveauEnCours = 4;
 			}
-			System.out.println("Niveau " + niveauEnCours + " chargé");
+			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
 			case 1:
 				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
@@ -257,10 +256,10 @@ public class Jeu extends JFrame {
 		}
 	}
 	
-	private class ActionBoutonLvl1 extends MouseAdapter {
+	private class ActionBoutonLvl1 implements ActionListener {
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			
 		}
 	}

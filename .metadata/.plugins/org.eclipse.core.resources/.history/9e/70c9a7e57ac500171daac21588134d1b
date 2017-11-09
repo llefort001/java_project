@@ -6,6 +6,9 @@ import javax.swing.JButton;
 
 public class Bouton {
 
+	protected Vector<Verrou> listeVerrous;
+	protected int coordX, coordY;
+	protected Fenetre window;
 	protected JButton bouton;
 	
 	public Bouton(){

@@ -174,7 +174,7 @@ public class Jeu extends JFrame {
 			if (niveauEnCours == 0) {
 				niveauEnCours = 4;
 			}
-			System.out.println("Niveau " + niveauEnCours + " chargé");
+			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
 			case 1:
 				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
