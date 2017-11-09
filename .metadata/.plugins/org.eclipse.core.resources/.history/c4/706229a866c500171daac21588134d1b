@@ -137,37 +137,34 @@ public class Jeu extends JFrame {
 //		});
 
 		// creer un evenement bouton commencer
-		
-		this.nivPrec.addActionListener(new PreviousLvl());
-		
-//		this.nivPrec.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//
-//				niveauEnCours--;
-//				if (niveauEnCours == 0) {
-//					niveauEnCours = 4;
-//				}
-//				System.out.println("Niveau " + niveauEnCours + " charg�");
-//				switch (niveauEnCours) {
-//				case 1:
-//					imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
-//					break;
-//				case 2:
-//					imageFond = new ImageIcon("res/Chests_normal.png", "Chests normal");
-//					break;
-//				case 3:
-//					imageFond = new ImageIcon("res/Chests_hard.png", "Chests hard");
-//					break;
-//				case 4:
-//					imageFond = new ImageIcon("res/Chests_harder.png", "Chests harder");
-//					break;
-//
-//				}
-//				fond.setIcon(imageFond);
-//				
-//			}
-//		});
+		this.nivPrec.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				niveauEnCours--;
+				if (niveauEnCours == 0) {
+					niveauEnCours = 4;
+				}
+				System.out.println("Niveau " + niveauEnCours + " charg�");
+				switch (niveauEnCours) {
+				case 1:
+					imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
+					break;
+				case 2:
+					imageFond = new ImageIcon("res/Chests_normal.png", "Chests normal");
+					break;
+				case 3:
+					imageFond = new ImageIcon("res/Chests_hard.png", "Chests hard");
+					break;
+				case 4:
+					imageFond = new ImageIcon("res/Chests_harder.png", "Chests harder");
+					break;
+
+				}
+				fond.setIcon(imageFond);
+				
+			}
+		});
 
 		this.nivSuiv.addActionListener(new NextLvl());
 		
@@ -235,35 +232,6 @@ public class Jeu extends JFrame {
 			niveauEnCours++;
 			if(niveauEnCours == 5){
 				niveauEnCours=1;
-			}
-			System.out.println("Niveau " + niveauEnCours + " charg�");
-			switch (niveauEnCours) {
-			case 1:
-				imageFond = new ImageIcon("res/Chests_easy.png", "Chests easy");
-				break;
-			case 2:
-				imageFond = new ImageIcon("res/Chests_normal.png", "Chests normal");
-				break;
-			case 3:
-				imageFond = new ImageIcon("res/Chests_hard.png", "Chests hard");
-				break;
-			case 4:
-				imageFond = new ImageIcon("res/Chests_harder.png", "Chests harder");
-				break;
-
-			}
-			fond.setIcon(imageFond);
-		}
-		
-	}
-	
-	private class PreviousLvl implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			niveauEnCours--;
-			if (niveauEnCours == 0) {
-				niveauEnCours = 4;
 			}
 			System.out.println("Niveau " + niveauEnCours + " charg�");
 			switch (niveauEnCours) {
