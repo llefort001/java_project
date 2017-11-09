@@ -1,0 +1,10 @@
+!SESSION 2017-11-07 15:30:32.811 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/k0r3/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data /Users/k0r3/Documents/projects/java_project/Aquatic Hitman In Space -product org.eclipse.epp.package.jee.product -keyring /Users/k0r3/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2017-11-07 15:30:36.852
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
