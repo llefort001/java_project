@@ -1,0 +1,40 @@
+package pack;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class FirstLvl extends Jeu{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public class ActionBouton1 extends MouseAdapter {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println("MouseEvent triggered");
+			if (boutons.elementAt(0).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 1 cliqué");
+				verrous.elementAt(0).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(1).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 2 cliqué");
+				verrous.elementAt(1).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(2).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 3 cliqué");
+				verrous.elementAt(2).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(3).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 4 cliqué");
+				verrous.elementAt(3).reverseVerrou();
+				updateVerrous();
+			}
+		}
+	}
+	
+	
+	
+}

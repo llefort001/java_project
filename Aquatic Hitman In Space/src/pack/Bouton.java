@@ -6,15 +6,27 @@ import javax.swing.JLabel;
 public class Bouton {
 
 	protected JLabel bouton;
+	protected ImageIcon imgClicked = new ImageIcon("res/buttonClicked.png");
+	protected ImageIcon imgDefault = new ImageIcon("res/buttonDefault.png");
 	protected boolean clicked;
 	
 	public Bouton(){
-		this.bouton = new JLabel(new ImageIcon("res/padlockClosed.png"));
+		this.bouton = new JLabel(this.imgDefault);
 		this.clicked = false;
 	}
 
 	public boolean isClicked() {
 		return this.clicked;
+	}
+	
+	public void reverseBouton() {
+		if (this.clicked) {
+			this.bouton.setIcon(imgDefault);
+			this.clicked = false;
+		} else {
+			this.bouton.setIcon(imgClicked);
+			this.clicked = true;
+		}
 	}
 	
 	public JLabel getBouton() {
