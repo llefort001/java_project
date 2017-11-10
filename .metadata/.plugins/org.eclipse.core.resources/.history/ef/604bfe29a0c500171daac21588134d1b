@@ -1,0 +1,25 @@
+package pack;
+
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+public class Bouton {
+
+	protected JLabel bouton;
+	protected boolean clicked;
+	
+	public Bouton(){
+		this.bouton = new JLabel(new ImageIcon("res/padlockClosed.png"));
+		this.clicked = false;
+	}
+
+	public boolean isClicked() {
+		return this.clicked;
+	}
+	
+	public JLabel getBouton() {
+		return bouton;
+	}
+}

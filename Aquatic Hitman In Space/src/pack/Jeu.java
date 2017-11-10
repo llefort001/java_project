@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +12,8 @@ import javax.swing.*;
 
 public class Jeu extends JFrame {
 
+	private final int W_SIZE = 600;
+	
 	protected JMenuBar menuBar;
 	protected JMenu fichier, aide;
 	protected JMenuItem aPropos, save, load, exit;
@@ -35,9 +36,10 @@ public class Jeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public Jeu() {
-		// creation de l'iterface
+		// Création de l'interface
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("Aquatic Hitman in Space");
+		this.setSize(W_SIZE, W_SIZE);
 
 		this.menuBar = new JMenuBar();
 		this.fichier = new JMenu("Fichier");
@@ -61,8 +63,8 @@ public class Jeu extends JFrame {
 		this.menuPrincipal.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		this.menuNiveau = new JPanel();
-		this.menuNiveau.setLayout(new GridLayout(2,1));
-//		this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.menuNiveau.setLayout(new GridLayout(2, 1));
+		// this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		this.imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
 		this.fond = new JLabel(this.imageFond);
@@ -81,7 +83,6 @@ public class Jeu extends JFrame {
 		// Remplissage menuNiveau
 		this.menuNiveau.add(verrousPanel);
 		this.menuNiveau.add(boutonsPanel);
-//		this.menuNiveau.add(test);
 
 		// Remplissage menuPrincipal
 		this.menuPrincipal.add(nivPrec);
@@ -99,15 +100,12 @@ public class Jeu extends JFrame {
 		// Ajouter menuBar
 		this.add(menuBar, BorderLayout.PAGE_START);
 
-		this.setVisible(true);
-//		this.setResizable(false);
-		this.pack();
-
 		// Associer les action listeners
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
 
+		this.setVisible(true);
 	}
 
 	private class Jouer implements ActionListener {
@@ -193,8 +191,27 @@ public class Jeu extends JFrame {
 		}
 
 	}
-	
-	public void initLvl(){
+
+	public void initPanelsLvl1() {
+		System.out.println(verrous.size());
+		for (int i = 0; i < verrous.size(); i++) {
+			JLabel bouton = boutons.elementAt(i).getBouton();
+			bouton.addMouseListener(new ActionBoutonLvl1());
+			verrousPanel.add(verrous.elementAt(i).getVerrou());
+			boutonsPanel.add(bouton);
+		}
+		System.out.println(verrousPanel);
+	}
+
+	public void updateVerrous() {
+		verrousPanel.removeAll();
+		for (int i = 0; i < verrous.size(); i++) {
+			verrousPanel.add(verrous.elementAt(i).getVerrou());
+		}
+		verrousPanel.updateUI();
+	}
+
+	public void initLvl() {
 		this.verrous = new Vector<Verrou>();
 		this.boutons = new Vector<Bouton>();
 		this.verrousPanel.removeAll();
@@ -205,14 +222,10 @@ public class Jeu extends JFrame {
 			for (int i = 0; i < 4; i++) {
 				verrous.add(new Verrou());
 				boutons.add(new Bouton());
-				System.out.println("bite");
 			}
-			System.out.println(verrous.size());
-			for (int i = 0; i < verrous.size(); i++) {
-				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
-				boutonsPanel.add(boutons.elementAt(i).getBouton());
-			}
-			System.out.println(verrousPanel);
+
+			initPanelsLvl1();
+			
 			verrousPanel.setVisible(true);
 			break;
 		case 2:
@@ -220,12 +233,9 @@ public class Jeu extends JFrame {
 				verrous.add(new Verrou());
 				boutons.add(new Bouton());
 			}
-			System.out.println(verrous.size());
-			for (int i = 0; i < verrous.size(); i++) {
-				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
-				boutonsPanel.add(boutons.elementAt(i).getBouton());
-			}
-			System.out.println(verrousPanel);
+
+//			initPanelsLvl2();
+
 			verrousPanel.setVisible(true);
 			break;
 		case 3:
@@ -233,12 +243,9 @@ public class Jeu extends JFrame {
 				verrous.add(new Verrou());
 				boutons.add(new Bouton());
 			}
-			System.out.println(verrous.size());
-			for (int i = 0; i < verrous.size(); i++) {
-				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
-				boutonsPanel.add(boutons.elementAt(i).getBouton());
-			}
-			System.out.println(verrousPanel);
+
+//			initPanelsLvl3();
+
 			verrousPanel.setVisible(true);
 			break;
 		case 4:
@@ -246,22 +253,36 @@ public class Jeu extends JFrame {
 				verrous.add(new Verrou());
 				boutons.add(new Bouton());
 			}
-			System.out.println(verrous.size());
-			for (int i = 0; i < verrous.size(); i++) {
-				verrousPanel.add(new JLabel(verrous.elementAt(i).getImageClosed()));
-				boutonsPanel.add(boutons.elementAt(i).getBouton());
-			}
-			System.out.println(verrousPanel);
+
+//			initPanelsLvl4();
+
 			verrousPanel.setVisible(true);
 			break;
 		}
 	}
-	
+
 	private class ActionBoutonLvl1 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+			System.out.println("MouseEvent triggered");
+			if (boutons.elementAt(0).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 1 cliqué");
+				verrous.elementAt(0).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(1).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 2 cliqué");
+				verrous.elementAt(1).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(2).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 3 cliqué");
+				verrous.elementAt(2).reverseVerrou();
+				updateVerrous();
+			} else if (boutons.elementAt(3).getBouton().contains(e.getPoint())) {
+				System.out.println("Bouton 4 cliqué");
+				verrous.elementAt(3).reverseVerrou();
+				updateVerrous();
+			}
 		}
 	}
 }

@@ -1,18 +1,17 @@
 package pack;
 
-import java.awt.*;
 import javax.swing.*;
 
 public class Verrou {
 
 	protected boolean opened;
-	protected ImageIcon imageOpened; // image du verrou ouvert
-	protected ImageIcon imageClosed; // image du verrou ferm�
+	protected ImageIcon imageOpened = new ImageIcon("res/padlockOpened.png", "Padlock opened"); // image du verrou ouvert
+	protected ImageIcon imageClosed = new ImageIcon("res/padlockClosed.png", "Padlock closed"); // image du verrou fermé
+	protected JLabel baseLabel;
 
 	public Verrou() {
-		this.imageOpened = new ImageIcon("res/padlockOpened.png", "Padlock opened");
-		this.imageClosed = new ImageIcon("res/padlockClosed.png", "Padlock closed");
 		this.opened = false;
+		this.baseLabel = new JLabel(this.imageClosed);
 	}
 
 	public boolean isOpened() {
@@ -21,6 +20,20 @@ public class Verrou {
 
 	public void setEtat(boolean opened) {
 		this.opened = opened;
+	}
+	
+	public JLabel getVerrou() {
+		return this.baseLabel;
+	}
+	
+	public void reverseVerrou() {
+		if (this.opened) {
+			this.baseLabel.setIcon(this.imageClosed);
+			this.opened = false;
+		} else {
+			this.baseLabel.setIcon(this.imageOpened);
+			this.opened = true;
+		}
 	}
 	
 	public ImageIcon getImageOpened() {
