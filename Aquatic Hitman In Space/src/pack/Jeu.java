@@ -15,13 +15,14 @@ public class Jeu extends JFrame {
 	protected JMenuBar menuBar;
 	protected JMenu fichier, aide;
 	protected JMenuItem aPropos, save, load, exit;
-	protected JPanel menuAppli, zoneDeJeu, menuPrincipal, menuNiveau, verrousPanel, boutonsPanel, controlPanel;
+	protected JPanel zoneDeJeu, menuPrincipal, menuNiveau, verrousPanel, boutonsPanel, controlPanel;
 	protected ImageIcon imageFond;
 	protected JLabel fond;
 	protected JButton jouer, nivSuiv, nivPrec, reset, back;
 	protected Vector<Verrou> verrous;
 	protected Vector<Bouton> boutons;
 	protected int niveauEnCours = 1;
+	protected Vector<Integer> coffres; // 0 si coffre fermé, 1 si coffre ouvert
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +32,7 @@ public class Jeu extends JFrame {
 		this.setTitle("Aquatic Hitman in Space");
 		this.setSize(W_SIZE, W_SIZE);
 
+		initCoffres();
 		this.menuBar = new JMenuBar();
 		this.fichier = new JMenu("Fichier");
 		this.aide = new JMenu("Aide");
@@ -69,7 +71,7 @@ public class Jeu extends JFrame {
 
 		this.boutonsPanel = new JPanel();
 		this.boutonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+
 		this.controlPanel = new JPanel();
 		this.controlPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.controlPanel.add(reset);
@@ -96,13 +98,19 @@ public class Jeu extends JFrame {
 		// Ajouter menuBar
 		this.add(menuBar, BorderLayout.PAGE_START);
 
+		this.nivSuiv.setEnabled(false);
+		this.nivPrec.setEnabled(false);
+
 		// Associer les action listeners
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
 		this.reset.addActionListener(new Jouer());
+		this.back.addActionListener(new ReturnToMenu());
 		this.exit.addActionListener(new Quitter());
+		this.aPropos.addActionListener(new Copyright());
 
+		this.setResizable(false);
 		this.setVisible(true);
 	}
 
@@ -130,9 +138,9 @@ public class Jeu extends JFrame {
 
 	public void initPanelsLvl2() {
 		System.out.println(verrous.size());
-		
+
 		boutons.elementAt(1).reverseBouton();
-		
+
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
@@ -146,7 +154,7 @@ public class Jeu extends JFrame {
 		boutonsPanel.add(bouton3);
 
 		verrous.elementAt(1).reverseVerrou();
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
@@ -155,9 +163,9 @@ public class Jeu extends JFrame {
 
 	public void initPanelsLvl3() {
 		System.out.println(verrous.size());
-		
+
 		boutons.elementAt(0).reverseBouton();
-		
+
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
@@ -174,7 +182,7 @@ public class Jeu extends JFrame {
 		boutonsPanel.add(bouton4);
 
 		verrous.elementAt(0).reverseVerrou();
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
@@ -183,13 +191,13 @@ public class Jeu extends JFrame {
 
 	public void initPanelsLvl4() {
 		System.out.println(verrous.size());
-		
+
 		boutons.elementAt(0).reverseBouton();
 		boutons.elementAt(1).reverseBouton();
 		boutons.elementAt(2).reverseBouton();
 		boutons.elementAt(4).reverseBouton();
 		boutons.elementAt(5).reverseBouton();
-		
+
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
@@ -210,7 +218,7 @@ public class Jeu extends JFrame {
 		boutonsPanel.add(bouton4);
 		boutonsPanel.add(bouton5);
 		boutonsPanel.add(bouton6);
-		
+
 		verrous.elementAt(0).reverseVerrou();
 		verrous.elementAt(1).reverseVerrou();
 		verrous.elementAt(2).reverseVerrou();
@@ -251,8 +259,16 @@ public class Jeu extends JFrame {
 			imageFond = new ImageIcon("res/Jeu-Niveau" + niveauEnCours + "-Open.png");
 			fond.setIcon(imageFond);
 			fond.updateUI();
-			// TODO : new SuccessDialog();
+			new SuccessDialog(this);
 		}
+	}
+
+	public void initCoffres() {
+		coffres = new Vector<Integer>();
+		for (int i = 0; i < 4; i++) {
+			coffres.add(0);
+		}
+		System.out.println("Tous les coffres ont étés initialisés à l'état fermé ");
 	}
 
 	public void initLvl() {
@@ -305,7 +321,78 @@ public class Jeu extends JFrame {
 		}
 	}
 
+	public void retourMenu() {
+		// Generation du nom de l'image de fond de l'ecran principal du jeu
+		imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0) + coffres.elementAt(1)
+				+ coffres.elementAt(2) + coffres.elementAt(3) + ".png", "Chests " + niveauEnCours);
+		System.out.println("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0) + coffres.elementAt(1)
+				+ coffres.elementAt(2) + coffres.elementAt(3) + ".png");
+
+		fond.setIcon(imageFond);
+		zoneDeJeu.removeAll();
+		zoneDeJeu.add(menuPrincipal);
+		zoneDeJeu.updateUI();
+	}
 	
+	// Gestion des boutons en fonction des niveaux
+	public void levelControl() {
+		if (niveauEnCours == 1) {
+			nivSuiv.setEnabled(false);
+			nivPrec.setEnabled(false);
+			if (coffres.elementAt(1) == 1) {
+				nivSuiv.setEnabled(true);
+			} 
+			if (coffres.elementAt(3) == 1) {
+				nivPrec.setEnabled(true);
+			}
+			if (coffres.elementAt(1) == 0) {
+				if (coffres.elementAt(0) == 1) {
+					nivSuiv.setEnabled(true);
+				}
+			}
+			if (coffres.elementAt(2) == 1) {
+				nivPrec.setEnabled(true);
+			}
+		} else if (niveauEnCours == 2) {
+			nivSuiv.setEnabled(false);
+			nivPrec.setEnabled(false);
+			if (coffres.elementAt(2) == 1) {
+				nivSuiv.setEnabled(true);
+			}
+			if (coffres.elementAt(0) == 1) {
+				nivPrec.setEnabled(true);
+			} 
+			if (coffres.elementAt(2) == 0) {
+				if (coffres.elementAt(1) == 1) {
+					nivSuiv.setEnabled(true);
+				}
+			}
+		} else if (niveauEnCours == 3) {
+			nivSuiv.setEnabled(false);
+			nivPrec.setEnabled(false);
+			if (coffres.elementAt(3) == 1) {
+				nivSuiv.setEnabled(true);
+			} 
+			if (coffres.elementAt(1) == 1) {
+				nivPrec.setEnabled(true);
+			}
+			if (coffres.elementAt(3) == 0) {
+				if (coffres.elementAt(2) == 1) {
+					nivSuiv.setEnabled(true);
+				}
+			}
+		} else if (niveauEnCours == 4) {
+			nivSuiv.setEnabled(false);
+			nivPrec.setEnabled(false);
+			if (coffres.elementAt(0) == 1) {
+				nivSuiv.setEnabled(true);
+			} 
+			if (coffres.elementAt(2) == 1) {
+				nivPrec.setEnabled(true);
+			}
+		}
+	}
+
 	// EVENT LISTENERS
 
 	private class Jouer implements ActionListener {
@@ -344,24 +431,14 @@ public class Jeu extends JFrame {
 			if (niveauEnCours == 5) {
 				niveauEnCours = 1;
 			}
+			levelControl();
 			System.out.println("Niveau " + niveauEnCours + " chargé");
-			switch (niveauEnCours) {
-			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
-				break;
-			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
-				break;
-			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
-				break;
-			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
-				break;
-			}
+
+			imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+					+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+					"Chests " + niveauEnCours);
 			fond.setIcon(imageFond);
 		}
-
 	}
 
 	private class PreviousLvl implements ActionListener {
@@ -372,31 +449,38 @@ public class Jeu extends JFrame {
 			if (niveauEnCours == 0) {
 				niveauEnCours = 4;
 			}
+			levelControl();
 			System.out.println("Niveau " + niveauEnCours + " chargé");
-			switch (niveauEnCours) {
-			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
-				break;
-			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
-				break;
-			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
-				break;
-			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
-				break;
-			}
+			imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+					+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+					"Chests " + niveauEnCours);
 			fond.setIcon(imageFond);
 		}
 
 	}
-	
+
 	private class Quitter implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dispose();
+		}
+
+	}
+
+	private class ReturnToMenu implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			retourMenu();
+		}
+	}
+	
+	private class Copyright implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new CopyrightDialog();
 		}
 		
 	}
@@ -414,7 +498,7 @@ public class Jeu extends JFrame {
 				verrous.elementAt(0).reverseVerrou();
 
 				boutons.elementAt(0).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -432,7 +516,7 @@ public class Jeu extends JFrame {
 				verrous.elementAt(1).reverseVerrou();
 
 				boutons.elementAt(1).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -450,7 +534,7 @@ public class Jeu extends JFrame {
 				verrous.elementAt(2).reverseVerrou();
 
 				boutons.elementAt(2).reverseBouton();
-				
+
 				updateBoutons();
 				updateVerrous();
 				checkSuccess();
@@ -472,7 +556,7 @@ public class Jeu extends JFrame {
 
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(1).reverseBouton();
-				
+
 				updateBoutons();
 				updateVerrous();
 				checkSuccess();
@@ -494,7 +578,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -514,7 +598,7 @@ public class Jeu extends JFrame {
 
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -536,7 +620,7 @@ public class Jeu extends JFrame {
 
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -556,7 +640,7 @@ public class Jeu extends JFrame {
 
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(3).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -573,10 +657,10 @@ public class Jeu extends JFrame {
 			if (!boutons.elementAt(2).isClicked()) {
 				verrous.elementAt(1).reverseVerrou();
 				verrous.elementAt(2).reverseVerrou();
-				
+
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -598,7 +682,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(3).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -622,7 +706,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(4).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -644,7 +728,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(3).reverseBouton();
 				boutons.elementAt(4).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -666,7 +750,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
 				boutons.elementAt(5).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -686,7 +770,7 @@ public class Jeu extends JFrame {
 
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(3).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -705,12 +789,12 @@ public class Jeu extends JFrame {
 				verrous.elementAt(1).reverseVerrou();
 				verrous.elementAt(2).reverseVerrou();
 				verrous.elementAt(4).reverseVerrou();
-	
+
 				boutons.elementAt(0).reverseBouton();
 				boutons.elementAt(1).reverseBouton();
 				boutons.elementAt(2).reverseBouton();
 				boutons.elementAt(4).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();
@@ -736,7 +820,7 @@ public class Jeu extends JFrame {
 				boutons.elementAt(3).reverseBouton();
 				boutons.elementAt(4).reverseBouton();
 				boutons.elementAt(5).reverseBouton();
-				
+
 				updateVerrous();
 				updateBoutons();
 				checkSuccess();

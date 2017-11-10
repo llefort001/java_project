@@ -1,0 +1,69 @@
+package pack;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class SuccessDialog extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public SuccessDialog(Jeu jeu) {
+		// System.out.println(getParent().getSize());
+		setBounds(0, 0, 600, 150);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				retourMenuSuccess();
+			}
+		});
+
+		setVisible(true);
+		setLayout(new GridLayout(2, 1));
+		JButton btn = new JButton("Revenir au menu principal");
+		JLabel success = new JLabel("Félicitations, vous avez terminé le niveau " + jeu.niveauEnCours,
+				SwingConstants.CENTER);
+		add(success);
+		add(btn);
+		btn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				retourMenuSuccess();
+
+			}
+		});
+	}
+
+	public void retourMenuSuccess() {
+		jeu.coffres.set(jeu.niveauEnCours - 1, 1);
+		if (jeu.niveauEnCours != 4) {
+			jeu.niveauEnCours++;
+		}
+		jeu.imageFond = new ImageIcon("res/Menu-Etat" + jeu.niveauEnCours + "-" + jeu.coffres.elementAt(0)
+				+ jeu.coffres.elementAt(1) + jeu.coffres.elementAt(2) + jeu.coffres.elementAt(3) + ".png",
+				"Chests " + jeu.niveauEnCours);
+		System.out.println("res/Menu-Etat" + jeu.niveauEnCours + "-" + jeu.coffres.elementAt(0) + jeu.coffres.elementAt(1)
+				+ jeu.coffres.elementAt(2) + jeu.coffres.elementAt(3) + ".png");
+		// génération du fichier d'image menu a afficher selon l'etat des
+		// niveaux réussis.
+		jeu.fond.setIcon(jeu.imageFond);
+		jeu.zoneDeJeu.removeAll();
+		jeu.zoneDeJeu.add(jeu.menuPrincipal);
+		jeu.zoneDeJeu.updateUI();
+		dispose();
+	}
+
+}

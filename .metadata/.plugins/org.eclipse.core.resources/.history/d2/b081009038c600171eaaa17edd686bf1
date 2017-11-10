@@ -1,0 +1,69 @@
+package pack;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class SuccessDialog extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public SuccessDialog() {
+		// System.out.println(getParent().getSize());
+		setBounds(0, 0, 600, 150);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				retourMenuSuccess();
+			}
+		});
+
+		setVisible(true);
+		setLayout(new GridLayout(2, 1));
+		JButton btn = new JButton("Revenir au menu principal");
+		JLabel success = new JLabel("Félicitations, vous avez terminé le niveau " + niveauEnCours,
+				SwingConstants.CENTER);
+		add(success);
+		add(btn);
+		btn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				retourMenuSuccess();
+
+			}
+		});
+	}
+
+	public void retourMenuSuccess() {
+		coffres.set(niveauEnCours - 1, 1);
+		if (niveauEnCours != 4) {
+			niveauEnCours++;
+		}
+		imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+				+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+				"Chests " + niveauEnCours);
+		System.out.println("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0) + coffres.elementAt(1)
+				+ coffres.elementAt(2) + coffres.elementAt(3) + ".png");
+		// génération du fichier d'image menu a afficher selon l'etat des
+		// niveaux réussis.
+		fond.setIcon(imageFond);
+		zoneDeJeu.removeAll();
+		zoneDeJeu.add(menuPrincipal);
+		zoneDeJeu.updateUI();
+		dispose();
+	}
+
+}

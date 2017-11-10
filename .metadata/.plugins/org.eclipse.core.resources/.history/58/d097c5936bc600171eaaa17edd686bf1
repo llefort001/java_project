@@ -1,0 +1,28 @@
+package pack;
+
+import java.awt.GridLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class CopyrightDialog extends JFrame {
+
+	
+	private JLabel hugo, goncalo, lucas, copyright;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public CopyrightDialog() {
+		// La classe Jeu courante est passé en paramétre pour pouvoir changer l'affichage à partir de la classe
+		// SuccessDialog
+		// System.out.println(getParent().getSize());
+		setBounds(0, 0, 500, 500);
+		setTitle("À propos");
+
+		
+		setLayout(new GridLayout(5, 1));
+		setVisible(true);
+	}
+
+}

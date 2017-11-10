@@ -1,0 +1,56 @@
+package pack;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class CopyrightDialog extends JFrame {
+
+	
+	private JLabel hugo, goncalo, lucas, copyright;
+	private JPanel center, hugoP, goncaloP, lucasP, copyrightP;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public CopyrightDialog() {
+		// La classe Jeu courante est passé en paramétre pour pouvoir changer l'affichage à partir de la classe
+		// SuccessDialog
+		// System.out.println(getParent().getSize());
+		this.setBounds(0, 0, 500, 500);
+		this.setTitle("À propos");
+
+		this.hugo = new JLabel("Hugo Sallebert");
+		this.goncalo = new JLabel("Gonçalo Ribeiro Monteiro");
+		this.lucas = new JLabel("Lucas Lefort");
+		this.copyright = new JLabel("Copyright © 2017");
+		
+		this.hugoP = new JPanel();
+		this.goncaloP = new JPanel();
+		this.lucasP = new JPanel();
+		this.copyrightP = new JPanel();
+		
+		this.hugoP.add(hugo);
+		this.goncaloP.add(goncalo);
+		this.lucasP.add(lucas);
+		this.copyrightP.add(copyright);
+		
+		this.center = new JPanel();
+//		this.center.setLayout(new BorderLayout());
+		
+		this.center.add(copyrightP);
+		this.center.add(goncaloP);
+		this.center.add(hugoP);
+		this.center.add(lucasP);
+		
+		this.add(center);
+				
+		this.setVisible(true);
+	}
+
+}
