@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +34,7 @@ public class Jeu extends JFrame {
 	protected Vector<Verrou> verrous;
 	protected Vector<Bouton> boutons;
 	protected int niveauEnCours = 1;
+	protected Vector<Integer> coffres; // 0 si coffre fermé, 1 si coffre ouvert
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +44,7 @@ public class Jeu extends JFrame {
 		this.setTitle("Aquatic Hitman in Space");
 		this.setSize(W_SIZE, W_SIZE);
 
+		initCoffres();
 		this.menuBar = new JMenuBar();
 		this.fichier = new JMenu("Fichier");
 		this.aide = new JMenu("Aide");
@@ -119,17 +123,17 @@ public class Jeu extends JFrame {
 		bouton1.addMouseListener(new ActionLvl1Bouton1());
 		bouton2.addMouseListener(new ActionLvl1Bouton2());
 		bouton3.addMouseListener(new ActionLvl1Bouton3());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl2() {
 		System.out.println(verrous.size());
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
@@ -139,17 +143,17 @@ public class Jeu extends JFrame {
 		bouton1.addMouseListener(new ActionLvl2Bouton1());
 		bouton2.addMouseListener(new ActionLvl2Bouton2());
 		bouton3.addMouseListener(new ActionLvl3Bouton3());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl3() {
 		System.out.println(verrous.size());
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
@@ -161,18 +165,18 @@ public class Jeu extends JFrame {
 		bouton2.addMouseListener(new ActionLvl3Bouton2());
 		bouton3.addMouseListener(new ActionLvl3Bouton3());
 		bouton4.addMouseListener(new ActionLvl3Bouton4());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
 		boutonsPanel.add(bouton4);
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl4() {
 		System.out.println(verrous.size());
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
@@ -188,14 +192,14 @@ public class Jeu extends JFrame {
 		bouton4.addMouseListener(new ActionLvl4Bouton4());
 		bouton5.addMouseListener(new ActionLvl4Bouton5());
 		bouton6.addMouseListener(new ActionLvl4Bouton6());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
 		boutonsPanel.add(bouton4);
 		boutonsPanel.add(bouton5);
 		boutonsPanel.add(bouton6);
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
@@ -209,13 +213,21 @@ public class Jeu extends JFrame {
 		}
 		verrousPanel.updateUI();
 	}
-	
+
 	public void updateBoutons() {
 		boutonsPanel.removeAll();
 		for (int i = 0; i < boutons.size(); i++) {
 			boutonsPanel.add(boutons.elementAt(i).getBouton());
 		}
 		boutonsPanel.updateUI();
+	}
+
+	public void initCoffres() {
+		coffres = new Vector<Integer>();
+		for (int i = 0; i < 4; i++) {
+			coffres.add(0);
+		}
+		System.out.println("Tous les coffres ont étés initialisés à l'état fermé ");
 	}
 
 	public void initLvl() {
@@ -295,6 +307,7 @@ public class Jeu extends JFrame {
 			zoneDeJeu.add(menuNiveau);
 			System.out.println("on y est");
 			zoneDeJeu.updateUI();
+			new SuccessDialog();
 		}
 	}
 
@@ -307,20 +320,10 @@ public class Jeu extends JFrame {
 				niveauEnCours = 1;
 			}
 			System.out.println("Niveau " + niveauEnCours + " charg�");
-			switch (niveauEnCours) {
-			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
-				break;
-			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
-				break;
-			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
-				break;
-			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
-				break;
-			}
+
+			imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+					+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+					"Chests " + niveauEnCours);
 			fond.setIcon(imageFond);
 		}
 
@@ -335,20 +338,9 @@ public class Jeu extends JFrame {
 				niveauEnCours = 4;
 			}
 			System.out.println("Niveau " + niveauEnCours + " chargé");
-			switch (niveauEnCours) {
-			case 1:
-				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
-				break;
-			case 2:
-				imageFond = new ImageIcon("res/Menu-Etat2-1000.png", "Chests normal");
-				break;
-			case 3:
-				imageFond = new ImageIcon("res/Menu-Etat3-1100.png", "Chests hard");
-				break;
-			case 4:
-				imageFond = new ImageIcon("res/Menu-Etat4-1110.png", "Chests harder");
-				break;
-			}
+			imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+					+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+					"Chests " + niveauEnCours);
 			fond.setIcon(imageFond);
 		}
 
@@ -364,7 +356,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 1 cliqué");
 			verrous.elementAt(0).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(0).reverseBouton();
 			updateBoutons();
 		}
@@ -378,7 +370,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 1 cliqué");
 			verrous.elementAt(1).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(1).reverseBouton();
 			updateBoutons();
 		}
@@ -392,14 +384,14 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 3 cliqué");
 			verrous.elementAt(2).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(2).reverseBouton();
 			updateBoutons();
 		}
 	}
 
 	// LISTENERS BOUTONS LVL 2
-	
+
 	class ActionLvl2Bouton1 extends MouseAdapter {
 
 		@Override
@@ -408,7 +400,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 1 cliqué");
 			verrous.elementAt(0).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(0).reverseBouton();
 			updateBoutons();
 		}
@@ -422,7 +414,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 2 cliqué");
 			verrous.elementAt(1).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(1).reverseBouton();
 			updateBoutons();
 		}
@@ -436,14 +428,14 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 3 cliqué");
 			verrous.elementAt(2).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(2).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	// LISTENERS BOUTONS LVL 3
-	
+
 	class ActionLvl3Bouton1 extends MouseAdapter {
 
 		@Override
@@ -452,7 +444,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 1 cliqué");
 			verrous.elementAt(0).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(0).reverseBouton();
 			updateBoutons();
 		}
@@ -466,7 +458,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 2 cliqué");
 			verrous.elementAt(1).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(1).reverseBouton();
 			updateBoutons();
 		}
@@ -480,12 +472,12 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 3 cliqué");
 			verrous.elementAt(2).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(2).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	class ActionLvl3Bouton4 extends MouseAdapter {
 
 		@Override
@@ -494,12 +486,12 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 4 cliqué");
 			verrous.elementAt(3).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(3).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	// LISTENERS BOUTONS LVL 4
 
 	class ActionLvl4Bouton1 extends MouseAdapter {
@@ -510,7 +502,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 1 cliqué");
 			verrous.elementAt(0).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(0).reverseBouton();
 			updateBoutons();
 		}
@@ -524,7 +516,7 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 2 cliqué");
 			verrous.elementAt(1).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(1).reverseBouton();
 			updateBoutons();
 		}
@@ -538,12 +530,12 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 3 cliqué");
 			verrous.elementAt(2).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(2).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	class ActionLvl4Bouton4 extends MouseAdapter {
 
 		@Override
@@ -552,12 +544,12 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 4 cliqué");
 			verrous.elementAt(3).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(3).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	class ActionLvl4Bouton5 extends MouseAdapter {
 
 		@Override
@@ -566,12 +558,12 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 5 cliqué");
 			verrous.elementAt(4).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(4).reverseBouton();
 			updateBoutons();
 		}
 	}
-	
+
 	class ActionLvl4Bouton6 extends MouseAdapter {
 
 		@Override
@@ -580,9 +572,66 @@ public class Jeu extends JFrame {
 			System.out.println("Bouton 6 cliqué");
 			verrous.elementAt(5).reverseVerrou();
 			updateVerrous();
-			
+
 			boutons.elementAt(5).reverseBouton();
 			updateBoutons();
+		}
+	}
+
+	// Modal succes niveau
+	public class SuccessDialog extends JFrame {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public SuccessDialog() {
+			// System.out.println(getParent().getSize());
+			setBounds(0, 0, 600, 150);
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			this.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent event) {
+						retourMenuSuccess();
+				}
+			});
+
+			setVisible(true);
+			setLayout(new GridLayout(2, 1));
+			JButton btn = new JButton("Revenir au menu principal");
+			JLabel success = new JLabel("Félicitations, vous avez terminé le niveau " + niveauEnCours,
+					SwingConstants.CENTER);
+			add(success);
+			add(btn);
+			btn.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					retourMenuSuccess();
+
+				}
+			});
+		}
+
+		public void retourMenuSuccess() {
+			coffres.set(niveauEnCours - 1, 1);
+			if (niveauEnCours != 4) {
+				niveauEnCours++;
+			}
+			imageFond = new ImageIcon("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0)
+					+ coffres.elementAt(1) + coffres.elementAt(2) + coffres.elementAt(3) + ".png",
+					"Chests " + niveauEnCours);
+			System.out.println("res/Menu-Etat" + niveauEnCours + "-" + coffres.elementAt(0) + coffres.elementAt(1)
+					+ coffres.elementAt(2) + coffres.elementAt(3) + ".png");
+			// génération du fichier d'image menu a afficher selon l'etat des
+			// niveaux réussis.
+			fond.setIcon(imageFond);
+			zoneDeJeu.removeAll();
+			zoneDeJeu.add(menuPrincipal);
+			zoneDeJeu.updateUI();
+			dispose();
 		}
 	}
 }
