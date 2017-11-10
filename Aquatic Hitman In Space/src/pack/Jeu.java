@@ -22,7 +22,6 @@ public class Jeu extends JFrame {
 	protected ImageIcon imageFond;
 	protected JLabel fond;
 	protected JButton jouer;
-	protected JButton test;
 	protected JButton nivSuiv;
 	protected JButton nivPrec;
 	protected JPanel menuPrincipal;
@@ -64,13 +63,11 @@ public class Jeu extends JFrame {
 
 		this.menuNiveau = new JPanel();
 		this.menuNiveau.setLayout(new GridLayout(2, 1));
-		// this.menuNiveau.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		this.imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
 		this.fond = new JLabel(this.imageFond);
 
 		this.jouer = new JButton("Jouer");
-		this.test = new JButton(".");
 		this.nivPrec = new JButton("< Niveau précédent");
 		this.nivSuiv = new JButton("Niveau suivant >");
 
@@ -119,39 +116,47 @@ public class Jeu extends JFrame {
 		bouton1.addMouseListener(new ActionLvl1Bouton1());
 		bouton2.addMouseListener(new ActionLvl1Bouton2());
 		bouton3.addMouseListener(new ActionLvl1Bouton3());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
-		
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl2() {
 		System.out.println(verrous.size());
+		
+		boutons.elementAt(1).reverseBouton();
+		
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
 
 		bouton1.addMouseListener(new ActionLvl2Bouton1());
 		bouton2.addMouseListener(new ActionLvl2Bouton2());
-		bouton3.addMouseListener(new ActionLvl3Bouton3());
-		
+		bouton3.addMouseListener(new ActionLvl2Bouton3());
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
+
+		verrous.elementAt(1).reverseVerrou();
 		
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl3() {
 		System.out.println(verrous.size());
+		
+		boutons.elementAt(0).reverseBouton();
+		
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
@@ -161,20 +166,29 @@ public class Jeu extends JFrame {
 		bouton2.addMouseListener(new ActionLvl3Bouton2());
 		bouton3.addMouseListener(new ActionLvl3Bouton3());
 		bouton4.addMouseListener(new ActionLvl3Bouton4());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
 		boutonsPanel.add(bouton4);
+
+		verrous.elementAt(0).reverseVerrou();
 		
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
 		System.out.println(verrousPanel);
 	}
-	
+
 	public void initPanelsLvl4() {
 		System.out.println(verrous.size());
+		
+		boutons.elementAt(0).reverseBouton();
+		boutons.elementAt(1).reverseBouton();
+		boutons.elementAt(2).reverseBouton();
+		boutons.elementAt(4).reverseBouton();
+		boutons.elementAt(5).reverseBouton();
+		
 		JLabel bouton1 = boutons.elementAt(0).getBouton();
 		JLabel bouton2 = boutons.elementAt(1).getBouton();
 		JLabel bouton3 = boutons.elementAt(2).getBouton();
@@ -188,7 +202,7 @@ public class Jeu extends JFrame {
 		bouton4.addMouseListener(new ActionLvl4Bouton4());
 		bouton5.addMouseListener(new ActionLvl4Bouton5());
 		bouton6.addMouseListener(new ActionLvl4Bouton6());
-		
+
 		boutonsPanel.add(bouton1);
 		boutonsPanel.add(bouton2);
 		boutonsPanel.add(bouton3);
@@ -196,6 +210,12 @@ public class Jeu extends JFrame {
 		boutonsPanel.add(bouton5);
 		boutonsPanel.add(bouton6);
 		
+		verrous.elementAt(0).reverseVerrou();
+		verrous.elementAt(1).reverseVerrou();
+		verrous.elementAt(2).reverseVerrou();
+		verrous.elementAt(4).reverseVerrou();
+		verrous.elementAt(5).reverseVerrou();
+
 		for (int i = 0; i < verrous.size(); i++) {
 			verrousPanel.add(verrous.elementAt(i).getVerrou());
 		}
@@ -209,13 +229,29 @@ public class Jeu extends JFrame {
 		}
 		verrousPanel.updateUI();
 	}
-	
+
 	public void updateBoutons() {
 		boutonsPanel.removeAll();
 		for (int i = 0; i < boutons.size(); i++) {
 			boutonsPanel.add(boutons.elementAt(i).getBouton());
 		}
 		boutonsPanel.updateUI();
+	}
+
+	public void checkSuccess() {
+		System.out.println("Jeu > checkSuccess()");
+		boolean checker = true;
+		for (int i = 0; i < verrous.size(); i++) {
+			if (!verrous.elementAt(i).isOpened()) {
+				checker = false;
+			}
+		}
+		if (checker) {
+			imageFond = new ImageIcon("res/Jeu-Niveau" + niveauEnCours + "-Open.png");
+			fond.setIcon(imageFond);
+			fond.updateUI();
+			// TODO : new SuccessDialog();
+		}
 	}
 
 	public void initLvl() {
@@ -306,7 +342,7 @@ public class Jeu extends JFrame {
 			if (niveauEnCours == 5) {
 				niveauEnCours = 1;
 			}
-			System.out.println("Niveau " + niveauEnCours + " charg�");
+			System.out.println("Niveau " + niveauEnCours + " chargé");
 			switch (niveauEnCours) {
 			case 1:
 				imageFond = new ImageIcon("res/Menu-Etat1-0000.png", "Chests easy");
@@ -361,12 +397,17 @@ public class Jeu extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
-			System.out.println("Bouton 1 cliqué");
-			verrous.elementAt(0).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(0).reverseBouton();
-			updateBoutons();
+
+			if (!boutons.elementAt(0).isClicked()) {
+				System.out.println("Bouton 1 cliqué");
+				verrous.elementAt(0).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -376,11 +417,15 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 1 cliqué");
-			verrous.elementAt(1).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(1).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(1).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+
+				boutons.elementAt(1).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -390,27 +435,37 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 3 cliqué");
-			verrous.elementAt(2).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(2).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(2).isClicked()) {
+				verrous.elementAt(2).reverseVerrou();
+
+				boutons.elementAt(2).reverseBouton();
+				
+				updateBoutons();
+				updateVerrous();
+				checkSuccess();
+			}
 		}
 	}
 
 	// LISTENERS BOUTONS LVL 2
-	
+
 	class ActionLvl2Bouton1 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 1 cliqué");
-			verrous.elementAt(0).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(0).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(0).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(1).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(1).reverseBouton();
+				
+				updateBoutons();
+				updateVerrous();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -420,11 +475,19 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 2 cliqué");
-			verrous.elementAt(1).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(1).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(1).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -434,27 +497,39 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 3 cliqué");
-			verrous.elementAt(2).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(2).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(2).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	// LISTENERS BOUTONS LVL 3
-	
+
 	class ActionLvl3Bouton1 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 1 cliqué");
-			verrous.elementAt(0).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(0).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(0).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -464,11 +539,17 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 2 cliqué");
-			verrous.elementAt(1).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(1).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(1).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(3).reverseVerrou();
+
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(3).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -478,28 +559,42 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 3 cliqué");
-			verrous.elementAt(2).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(2).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(2).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+				
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	class ActionLvl3Bouton4 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 4 cliqué");
-			verrous.elementAt(3).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(3).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(3).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(3).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(3).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	// LISTENERS BOUTONS LVL 4
 
 	class ActionLvl4Bouton1 extends MouseAdapter {
@@ -508,11 +603,19 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 1 cliqué");
-			verrous.elementAt(0).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(0).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(0).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(4).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(4).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -522,11 +625,19 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 2 cliqué");
-			verrous.elementAt(1).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(1).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(1).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(3).reverseVerrou();
+				verrous.elementAt(4).reverseVerrou();
+
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(3).reverseBouton();
+				boutons.elementAt(4).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 
@@ -536,53 +647,89 @@ public class Jeu extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 3 cliqué");
-			verrous.elementAt(2).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(2).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(2).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+				verrous.elementAt(5).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				boutons.elementAt(5).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	class ActionLvl4Bouton4 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 4 cliqué");
-			verrous.elementAt(3).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(3).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(3).isClicked()) {
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(3).reverseVerrou();
+
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(3).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	class ActionLvl4Bouton5 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 5 cliqué");
-			verrous.elementAt(4).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(4).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(4).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(1).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+				verrous.elementAt(4).reverseVerrou();
+	
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(1).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				boutons.elementAt(4).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
-	
+
 	class ActionLvl4Bouton6 extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("MouseEvent triggered");
 			System.out.println("Bouton 6 cliqué");
-			verrous.elementAt(5).reverseVerrou();
-			updateVerrous();
-			
-			boutons.elementAt(5).reverseBouton();
-			updateBoutons();
+			if (!boutons.elementAt(5).isClicked()) {
+				verrous.elementAt(0).reverseVerrou();
+				verrous.elementAt(2).reverseVerrou();
+				verrous.elementAt(3).reverseVerrou();
+				verrous.elementAt(4).reverseVerrou();
+				verrous.elementAt(5).reverseVerrou();
+
+				boutons.elementAt(0).reverseBouton();
+				boutons.elementAt(2).reverseBouton();
+				boutons.elementAt(3).reverseBouton();
+				boutons.elementAt(4).reverseBouton();
+				boutons.elementAt(5).reverseBouton();
+				
+				updateVerrous();
+				updateBoutons();
+				checkSuccess();
+			}
 		}
 	}
 }
