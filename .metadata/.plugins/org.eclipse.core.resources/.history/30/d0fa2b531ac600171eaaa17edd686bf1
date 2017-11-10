@@ -100,8 +100,7 @@ public class Jeu extends JFrame {
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
-		this.reset.addActionListener(new Jouer());
-		this.exit.addActionListener(new Quitter());
+		this.reset.addActionListener(new ActionReset());
 
 		this.setVisible(true);
 	}
@@ -305,7 +304,6 @@ public class Jeu extends JFrame {
 		}
 	}
 
-	
 	// EVENT LISTENERS
 
 	private class Jouer implements ActionListener {
@@ -392,13 +390,12 @@ public class Jeu extends JFrame {
 
 	}
 	
-	private class Quitter implements ActionListener {
+	private class ActionReset implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dispose();
+			initLvl();
 		}
-		
 	}
 
 	// LISTENERS BOUTONS LVL 1

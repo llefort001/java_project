@@ -101,7 +101,6 @@ public class Jeu extends JFrame {
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
 		this.reset.addActionListener(new Jouer());
-		this.exit.addActionListener(new Quitter());
 
 		this.setVisible(true);
 	}
@@ -396,7 +395,7 @@ public class Jeu extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dispose();
+			
 		}
 		
 	}

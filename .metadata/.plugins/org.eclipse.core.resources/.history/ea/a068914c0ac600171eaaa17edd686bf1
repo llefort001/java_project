@@ -69,16 +69,10 @@ public class Jeu extends JFrame {
 
 		this.boutonsPanel = new JPanel();
 		this.boutonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		this.controlPanel = new JPanel();
-		this.controlPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		this.controlPanel.add(reset);
-		this.controlPanel.add(back);
 
 		// Remplissage menuNiveau
 		this.menuNiveau.add(verrousPanel);
 		this.menuNiveau.add(boutonsPanel);
-		this.menuNiveau.add(controlPanel);
 
 		// Remplissage menuPrincipal
 		this.menuPrincipal.add(nivPrec);
@@ -100,8 +94,6 @@ public class Jeu extends JFrame {
 		this.jouer.addActionListener(new Jouer());
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
-		this.reset.addActionListener(new Jouer());
-		this.exit.addActionListener(new Quitter());
 
 		this.setVisible(true);
 	}
@@ -305,7 +297,6 @@ public class Jeu extends JFrame {
 		}
 	}
 
-	
 	// EVENT LISTENERS
 
 	private class Jouer implements ActionListener {
@@ -390,15 +381,6 @@ public class Jeu extends JFrame {
 			fond.setIcon(imageFond);
 		}
 
-	}
-	
-	private class Quitter implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			dispose();
-		}
-		
 	}
 
 	// LISTENERS BOUTONS LVL 1

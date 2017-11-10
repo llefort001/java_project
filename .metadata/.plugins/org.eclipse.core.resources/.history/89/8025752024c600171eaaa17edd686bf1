@@ -101,7 +101,6 @@ public class Jeu extends JFrame {
 		this.nivPrec.addActionListener(new PreviousLvl());
 		this.nivSuiv.addActionListener(new NextLvl());
 		this.reset.addActionListener(new Jouer());
-		this.exit.addActionListener(new Quitter());
 
 		this.setVisible(true);
 	}
@@ -305,7 +304,6 @@ public class Jeu extends JFrame {
 		}
 	}
 
-	
 	// EVENT LISTENERS
 
 	private class Jouer implements ActionListener {
@@ -390,15 +388,6 @@ public class Jeu extends JFrame {
 			fond.setIcon(imageFond);
 		}
 
-	}
-	
-	private class Quitter implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			dispose();
-		}
-		
 	}
 
 	// LISTENERS BOUTONS LVL 1
